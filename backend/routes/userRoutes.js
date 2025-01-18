@@ -3,14 +3,12 @@ const multer = require('multer');
 const User = require('../models/User');
 const router = express.Router();
 
-// Configure Multer for image uploads
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
   filename: (req, file, cb) => cb(null, Date.now() + '-' + file.originalname),
 });
 const upload = multer({ storage });
 
-// POST: Add a new user with images
 router.post('/submit', upload.array('images', 10), async (req, res) => {
   try {
     const { name, socialHandle } = req.body;
@@ -25,7 +23,6 @@ router.post('/submit', upload.array('images', 10), async (req, res) => {
   }
 });
 
-// GET: Fetch all user submissions
 router.get('/users', async (req, res) => {
   try {
     const users = await User.find();
